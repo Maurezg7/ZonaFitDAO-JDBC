@@ -1,11 +1,22 @@
 package Zonafit.dominio;
 
 import java.util.Objects;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Cliente")
 public class Cliente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String surname;
+
+    @Column(name = "nombre", nullable = false, length = 100)
+    private String nombre;
+
+    @Column(name = "apellido", nullable = false, length = 100)
+    private String apellido;
+
+    @Column(name = "membresia")
     private Long membresia;
 
     public Cliente(){}
@@ -14,14 +25,14 @@ public class Cliente {
         this.id = id;
     }
 
-    public Cliente(String name, String surname, Long membresia){
-        this.name = name;
-        this.surname = surname;
+    public Cliente(String nombre, String apellido, Long membresia){
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.membresia = membresia;
     }
 
-    public Cliente(Long id, String name, String surname, Long membresia){
-        this(name, surname, membresia);
+    public Cliente(Long id, String nombre, String apellido, Long membresia){
+        this(nombre, apellido, membresia);
         this.id = id;
     }
 
@@ -34,19 +45,19 @@ public class Cliente {
     }
 
     public String getName() {
-        return name;
+        return nombre;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nombre = name;
     }
 
     public String getSurname() {
-        return surname;
+        return apellido;
     }
 
     public void setSurname(String surname) {
-        this.surname = surname;
+        this.apellido = surname;
     }
 
     public Long getMembresia() {
@@ -61,8 +72,8 @@ public class Cliente {
     public String toString() {
         return "Cliente{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", name='" + nombre + '\'' +
+                ", surname='" + apellido + '\'' +
                 ", membresia=" + membresia +
                 '}';
     }
@@ -71,11 +82,11 @@ public class Cliente {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id) && Objects.equals(name, cliente.name) && Objects.equals(surname, cliente.surname) && Objects.equals(membresia, cliente.membresia);
+        return Objects.equals(id, cliente.id) && Objects.equals(nombre, cliente.nombre) && Objects.equals(apellido, cliente.apellido) && Objects.equals(membresia, cliente.membresia);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, membresia);
+        return Objects.hash(id, nombre, apellido, membresia);
     }
 }

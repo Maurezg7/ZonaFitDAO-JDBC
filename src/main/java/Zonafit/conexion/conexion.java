@@ -1,23 +1,28 @@
 package Zonafit.conexion;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class conexion {
-    public static Connection getConexion(){
-        Connection conexion = null;
-        String basedatos = "zona_fit_db";
-        String url = "jdbc:mysql://localhost:3306/" + basedatos;
-        String user = "root";
-        String password = "Kingmaster7+";
+    private static final EntityManagerFactory entityManagerFactory;
 
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection(url, user, password);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
+    static {
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory("zonafit");
+        } catch (Throwable ex) {
+            System.err.println("Error al crear EntityManagerFactory: " + ex);
+            throw new ExceptionInInitializerError(ex);
         }
+    }
 
-        return conexion;
+    public static EntityManager getEntityManager() {
+        return entityManagerFactory.createEntityManager();
+    }
+
+    public static void close() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 }
